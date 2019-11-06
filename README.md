@@ -46,7 +46,7 @@ The second framework presented in this paper extends Double-DRQN method to learn
 
 Visualization of Mac-JERTs:
 <p align="center">
-  <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="80%">
+  <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="75%">
 </p>
 
 ## Code Structure
