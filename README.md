@@ -61,6 +61,12 @@ Training in two domains via *conditional target prediction* (single run):
   ```
   ma_cen_condi_ddrqn.py --env_name=OSD_S_4 --env_terminate_step=150 --batch_size=16 --rnn_h_size=128 --train_freq=30 --total_epi=40000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=osd_single_v4 --replay_buffer_size=1000 --h_stable_at=6000 --eps_l_d_steps=6000 --l_rate=0.0006 --discount=1.0 --start_train=2 --sample_epi --h_explore
   ```
+Training in Box Pushing domain via *unconditional target prediction* (single run):
+
+- Box Pushing
+  ```
+  ma_cen_ddrqn.py --grid_dim 10 10 --env_name=BP_MA --env_terminate_step=100 --batch_size=128 --rnn_h_size=64 --train_freq=15 --total_epi=15000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=cen_condi_bpma_10_10 --replay_buffer_size=100000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.98 --start_train=2 --trace_len=15
+  ```
 
 ## How to Run a New Macro-Action-Based Domain
 
