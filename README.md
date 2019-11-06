@@ -68,7 +68,10 @@ Training in Box Pushing domain via *unconditional target prediction* (single run
   ma_cen_ddrqn.py --grid_dim 10 10 --env_name=BP_MA --env_terminate_step=100 --batch_size=128 --rnn_h_size=64 --train_freq=15 --total_epi=15000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=cen_condi_bpma_10_10 --replay_buffer_size=100000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.98 --start_train=2 --trace_len=15
   ```
 
-## How to Run a New Macro-Action-Based Domain
+## How to Run a New Domain
+
+- Encode the new macro/primitve-action domain as gym env;
+- Let the step function return "a, o', r, t, v" instead of "o' r, t", where a is the current macro/primitve action; o' is the new obs; r is the reward; t is termination; v is a binary value indicate whether the macro/primitive action terminates or not. In primitive-action version, v should be always 1. The dimension of "a, o', v" should be equal to the number of agents in the domain.
 
 ## Code Structure
 
