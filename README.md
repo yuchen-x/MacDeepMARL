@@ -14,3 +14,13 @@ This is the code for implementing the macro-action-based decentralized learning 
   cd CoRL2019/
   pip install -e .
   ```
+## Paper Citation
+If you used this code for your reasearch or found it helpful, consider citing the following paper:
+```
+@InProceedings{xiao_corl_2019,
+    author = "Xiao, Yuchen and Hoffman, Joshua and Amato, Christopher",
+    title = "Macro-Action-Based Deep Multi-Agent Reinforcement Learning",
+    booktitle = "3rd Annual Conference on Robot Learning",
+    year = "2019"
+}
+```
