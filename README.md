@@ -16,7 +16,7 @@ This is the code for implementing the macro-action-based decentralized learning 
   ```
 ## Decentralized Learning for Decentralized Execution
 
-The first framework presented in this paper extends [Dec-HDRQN](https://arxiv.org/pdf/1703.06182.pdf) with Double Q-learning to learn decentralized macro-action-value function by proposing a **Macro-Action Concurrent Experience Replay Trajectories (Mac-CERTs)** to maintain macro-action-observation transitions for training.
+The first framework presented in this paper extends [Dec-HDRQN](https://arxiv.org/pdf/1703.06182.pdf) with Double Q-learning to learn the decentralized macro-action-value function for each agent by proposing a **Macro-Action Concurrent Experience Replay Trajectories (Mac-CERTs)** to maintain macro-action-observation transitions for training.
 
 Visualization of Mac-CERTs:
 
@@ -41,6 +41,8 @@ Training in Three Domains (Single Run):
 The results presented in our paper are the averaged performance over 40 runs using seeds 0-39. By specifing `--save_dir` and `--run_id` for each training, the correpsonding results and policies are separately saved under `/performance` and `/policy_nns` directories.
 
 ## Centralized Learning for Centralized Execution
+
+The second framework presented in this paper extends Double-DRQN method to learn a centralized macro-action-value function by proposing a **Macro-Action Joint Experience Replay Trajectories (Mac-JERTs)** to maintain joint macro-action-observation transitions for training.
 
 ## Code Structure
 
