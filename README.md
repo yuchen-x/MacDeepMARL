@@ -22,7 +22,7 @@ Visualization of Mac-CERTs:
 
 ![](https://github.com/yuchen-x/CoRL2019/blob/master/images/dec_buffer.png)
 
-A mini-batch of squeezed experience is then used for optimizing each agent's decentralized Q-net.
+A mini-batch of squeezed experience is then used for optimizing each agent's decentralized macro-action Q-net.
 
 Training in Three Domains (Single Run):
 - Capture Target
@@ -48,6 +48,10 @@ Visualization of Mac-JERTs:
 <p align="center">
   <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="75%">
 </p>
+
+A mini-batch of squeezed experience is then used for optimizing the centralized macro-action Q-net. **Note that, we propose a conditional target valaue prediction taking into account the asynchronous macro-action executions over agents for obtaining more accurate value estimation.**
+
+## How to Run a New Macro-Action-Based Domain
 
 ## Code Structure
 
