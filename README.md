@@ -24,7 +24,7 @@ Visualization of Mac-CERTs:
 
 A mini-batch of squeezed experience is then used for optimizing each agent's decentralized macro-action Q-net.
 
-Training in Three Domains (Single Run):
+Training in three domains (single run):
 - Capture Target
   ```
   ma_hddrqn.py --grid_dim 10 10 --env_name=CT --env_terminate_step=60 --batch_size=32 --trace_len=4 --rnn_h_size=64 --train_freq=5 --total_epi=20000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=ct_10_10 --replay_buffer_size=50000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.95 --start_train=2
@@ -49,7 +49,18 @@ Visualization of Mac-JERTs:
   <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="75%">
 </p>
 
-A mini-batch of squeezed experience is then used for optimizing the centralized macro-action Q-net. **Note that, we propose a conditional target valaue prediction taking into account the asynchronous macro-action executions over agents for obtaining more accurate value estimation.**
+A mini-batch of squeezed experience is then used for optimizing the centralized macro-action Q-net. Note that, we propose a **conditional target valaue prediction** taking into account the asynchronous macro-action executions over agents for obtaining more accurate value estimation.
+
+Training in two domains via *conditional target prediction* (single run):
+
+- Box Pushing
+  ```
+  ma_cen_condi_ddrqn.py --grid_dim 10 10 --env_name=BP_MA --env_terminate_step=100 --batch_size=128 --rnn_h_size=64 --train_freq=15 --total_epi=15000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=cen_condi_bpma_10_10 --replay_buffer_size=100000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.98 --start_train=2 --trace_len=15
+  ```
+- Warehouse Tool Delivery
+  ```
+  ma_cen_condi_ddrqn.py --env_name=OSD_S_4 --env_terminate_step=150 --batch_size=16 --rnn_h_size=128 --train_freq=30 --total_epi=40000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=osd_single_v4 --replay_buffer_size=1000 --h_stable_at=6000 --eps_l_d_steps=6000 --l_rate=0.0006 --discount=1.0 --start_train=2 --sample_epi --h_explore
+  ```
 
 ## How to Run a New Macro-Action-Based Domain
 
