@@ -45,8 +45,9 @@ The results presented in our paper are the averaged performance over 40 runs usi
 The second framework presented in this paper extends Double-DRQN method to learn a centralized macro-action-value function by proposing a **Macro-Action Joint Experience Replay Trajectories (Mac-JERTs)** to maintain joint macro-action-observation transitions for training.
 
 Visualization of Mac-JERTs:
-
-![](https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png|width=48)
+<p align="center">
+  <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="80%">
+</p>
 
 ## Code Structure
 
