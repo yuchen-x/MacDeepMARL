@@ -38,7 +38,7 @@ Training in Three Domains (Single Run):
   ma_hddrqn.py --env_name=OSD_S_4 --env_terminate_step=150 --batch_size=16 --rnn_h_size=64 --train_freq=30 --total_epi=40000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=osd_single_v4_dec --replay_buffer_size=1000 --h_stable_at=6000 --eps_l_d_steps=6000 --l_rate=0.0006 --discount=1.0 --start_train=2 --sample_epi --h_explore
   ```
   
-The results presented in our paper are the averaged performance over 40 runs using seeds 0-39.
+The results presented in our paper are the averaged performance over 40 runs using seeds 0-39. By specifing `--save_dir` and `--run_id` for each training, the correpsonding results and policies are separately saved under `/performance` and `/policy_nns` dirctories.
 
 ## Centralized Learning for Centralized Execution
 
