@@ -42,6 +42,8 @@ The results presented in our paper are the averaged performance over 40 runs usi
 
 ## Centralized Learning for Centralized Execution
 
+## Code Structure
+
 ## Paper Citation
 If you used this code for your reasearch or found it helpful, consider citing the following paper:
 ```
