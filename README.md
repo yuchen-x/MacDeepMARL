@@ -14,6 +14,18 @@ This is the code for implementing the macro-action-based decentralized learning 
   cd CoRL2019/
   pip install -e .
   ```
+## Decentralized Learning for Decentralized Execution
+
+The first framework presented in this paper extends [Dec-HDRQN](https://arxiv.org/pdf/1703.06182.pdf) with Double Q-learning to learn decentralized macro-action-value function by proposing a **Macro-Action Concurrent Experience Replay Trajectories (Mac-CERTs)** to maintain macro-action-observation transitions for training.
+
+Example:
+
+![](https://github.com/yuchen-x/CoRL2019/blob/master/images/dec_buffer.png)
+
+A mini-batch of squeezed experience is then used for optimizing each agent's decentralized Q-net.
+
+## Centralized Learning for Centralized Execution
+
 ## Paper Citation
 If you used this code for your reasearch or found it helpful, consider citing the following paper:
 ```
