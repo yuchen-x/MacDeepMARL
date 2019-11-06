@@ -18,7 +18,7 @@ This is the code for implementing the macro-action-based decentralized learning 
 
 The first framework presented in this paper extends [Dec-HDRQN](https://arxiv.org/pdf/1703.06182.pdf) with Double Q-learning to learn decentralized macro-action-value function by proposing a **Macro-Action Concurrent Experience Replay Trajectories (Mac-CERTs)** to maintain macro-action-observation transitions for training.
 
-Example:
+Visualization of Mac-CERTs:
 
 ![](https://github.com/yuchen-x/CoRL2019/blob/master/images/dec_buffer.png)
 
