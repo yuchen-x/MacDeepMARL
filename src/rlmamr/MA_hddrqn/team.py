@@ -217,7 +217,7 @@ class Team_RNN(Team):
                 exps[i].append([o[i], a[i], r[i], o_n[i], t, v[i]])
         return exps
 
-    def evaluate(self, n_episode=1):
+    def evaluate(self, n_episode=10):
 
         R, L = 0, 0
 
