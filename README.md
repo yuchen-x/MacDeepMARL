@@ -11,7 +11,7 @@ This is the code for implementing the macro-action-based decentralized learning 
   ```
 - To install the python module:
   ```
-  cd CoRL2019/
+  cd MacDeepMARL/
   pip install -e .
   ```
 ## Decentralized Learning for Decentralized Execution
