@@ -45,7 +45,7 @@ The results presented in our paper are the averaged performance over 40 runs usi
 ## Code Structure
 
 ## Paper Citation
-If you used this code for your reasearch or found it helpful, consider citing the following paper:
+If you used this code for your reasearch or found it helpful, please consider citing the following paper:
 ```
 @InProceedings{xiao_corl_2019,
     author = "Xiao, Yuchen and Hoffman, Joshua and Amato, Christopher",
