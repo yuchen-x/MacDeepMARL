@@ -46,7 +46,7 @@ The second framework presented in this paper extends Double-DRQN method to learn
 
 Visualization of Mac-JERTs:
 <p align="center">
-  <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="75%">
+  <img src="https://github.com/yuchen-x/MacDeepMARL/blob/master/images/cen_buffer.png" width="70%">
 </p>
 
 A mini-batch of squeezed experience is then used for optimizing the centralized macro-action Q-net. Note that, we propose a **conditional target valaue prediction** taking into account the asynchronous macro-action executions over agents for obtaining more accurate value estimation.
