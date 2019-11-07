@@ -45,13 +45,13 @@ def get_actions_and_h_states(env, agent, joint_obs, h_state, last_action, last_v
 def get_init_inputs(env,n_agent):
     return [torch.from_numpy(i).float() for i in env.reset(True)], None
 
-def test(env_name, env_terminate_step,n_agent, n_episode, p_id):
+def test(env_name, env_terminate_step,n_agent, n_episode, tbot_speed):
     ENV = ENVIRONMENTS[env_name]
-    env = ENV()
+    env = ENV(tbot_speed=tbot_speed)
 
     agent = Cen_Controller()
     agent.idx = 0
-    agent.policy_net = torch.load("./policy_nns/" + str(p_id) + "_cen_controller.pt")
+    agent.policy_net = torch.load("./policy_nns/" + "cen_controller.pt")
     agent.policy_net.eval()
 
     R = 0
@@ -83,7 +83,7 @@ def main():
     parser.add_argument('--env_terminate_step', action='store', type=int, default=150)
     parser.add_argument('--n_agent', action='store', type=int, default=3)
     parser.add_argument('--n_episode', action='store', type=int, default=1)
-    parser.add_argument('--p_id', action='store', type=int, default=2)
+    parser.add_argument('--tbot_speed', action='store', type=float, default=0.6)
 
     test(**vars(parser.parse_args()))
 

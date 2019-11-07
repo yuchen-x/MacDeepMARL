@@ -13,7 +13,7 @@ class ObjSearchDelivery(gym.Env):
             'video.frames_per_second' : 50
             }
 
-    def __init__(self, n_objs=3, terminate_step=150, *args, **kwargs):
+    def __init__(self, n_objs=3, terminate_step=150, tbot_speed=0.6, *args, **kwargs):
 
         self.n_agent = 3
 
@@ -37,6 +37,7 @@ class ObjSearchDelivery(gym.Env):
         self.terminate_step = terminate_step
 
         self.human_waiting_steps = []
+        self.turtlebot_speed=tbot_speed
 
     @property
     def obs_size(self):
@@ -387,8 +388,8 @@ class ObjSearchDelivery_v4(ObjSearchDelivery):
     def createAgents(self):
 
         #-----------------initialize Two Turtlebot agents
-        Turtlebot1 = AgentTurtlebot_v4(0, 3.0, 1.5, self.BWPs_T0, self.T_MAs, self.n_objs)
-        Turtlebot2 = AgentTurtlebot_v4(1, 3.0, 2.5, self.BWPs_T1, self.T_MAs, self.n_objs)
+        Turtlebot1 = AgentTurtlebot_v4(0, 3.0, 1.5, self.BWPs_T0, self.T_MAs, self.n_objs, speed=self.turtlebot_speed)
+        Turtlebot2 = AgentTurtlebot_v4(1, 3.0, 2.5, self.BWPs_T1, self.T_MAs, self.n_objs, speed=self.turtlebot_speed)
         
         #-----------------initialize One Fetch Robot agent
         Fetch_robot = AgentFetch_v4(2, 0.9, 1.8, self.F_MAs, self.n_objs, self.n_each_obj)
