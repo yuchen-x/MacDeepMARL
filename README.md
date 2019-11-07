@@ -89,10 +89,10 @@ Run the same policy but under a higher Turtlebot's moving speed (v=0.8):
   ```
 
 ## Code Structure
-
 - `./scripts/ma_hddrqn.py` the main training loop for the decentralized learning method
 - `./scripts/ma_cen_ddrqn.py` the main training loop for the unconditional centralized learning method 
-- `./scripts/ma_cen_condi_ddrqn.py`the main training loop for the conditional centralized learning method 
+- `./scripts/ma_cen_condi_ddrqn.py`the main training loop for the conditional centralized learning method
+
 ## Paper Citation
 If you used this code for your reasearch or found it helpful, please consider citing the following paper:
 ```
