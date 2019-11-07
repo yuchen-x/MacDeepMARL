@@ -93,6 +93,10 @@ Run the same policy but under a higher Turtlebot's moving speed (v=0.8):
 - `./scripts/ma_cen_ddrqn.py` the main training loop for the unconditional centralized learning method 
 - `./scripts/ma_cen_condi_ddrqn.py`the main training loop for the conditional centralized learning method
 - `./src/rlmamr/method_name` the source code for each corresponding method
+- `./src/rlmamr/method_name/team.py the class for a team of agents with useful functions for learning
+- `./src/rlmamr/method_name/learning_methods.py core code for the algorithm
+- `./src/rlmamr/method_name/env_runner.py multi-processing for parallel envs
+- `./src/rlmamr/method_name/model.py neural network module
 - `./src/rlmamr/my_env` code for each domain problem
 
 ## Paper Citation
