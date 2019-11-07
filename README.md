@@ -75,12 +75,18 @@ Training in Box Pushing domain via *unconditional target prediction* (single run
 
 ## Visualization of a Trained Centralized Policy in the Warehouse Domain
 
-Under the default low Turtlebot's moving speed:
+Under the default Turtlebot's moving speed (v=0.6):
   ```
   cd ./test/
   python test_osd_s_policy.py
   ```
 Press `c` to run a learnt centralized policy.
+
+Run the same policy but under a higher Turtlebot's moving speed (v=0.8):
+  ```
+  cd ./test/
+  python test_osd_s_policy.py --tbot_speed=0.8
+  ```
 
 ## Code Structure
 
