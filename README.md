@@ -75,7 +75,9 @@ Training in Box Pushing domain via *unconditional target prediction* (single run
 
 ## Code Structure
 
-- `./scripts/ma_hddrqn`
+- `./scripts/ma_hddrqn.py`
+- `./scripts/ma_cen_ddrqn.py`
+- `./scripts/ma_cen_condi_ddrqn.py`
 
 ## Paper Citation
 If you used this code for your reasearch or found it helpful, please consider citing the following paper:
