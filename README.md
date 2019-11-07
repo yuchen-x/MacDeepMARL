@@ -73,6 +73,8 @@ Training in Box Pushing domain via *unconditional target prediction* (single run
 - Encode the new macro/primitve-action domain as a gym env;
 - Let the step function return <a, o', r, t, v> instead of <o', r, t>, where a is the current macro/primitve action; o' is the new obs; r is the reward; t is termination; v is a binary value indicate whether the macro/primitive action terminates or not. In primitive-action version, v should be always 1. The dimension of "a, o', v" should be equal to the number of agents in the domain.
 
+## Visualization of a Trained Policy in the Warehouse Domain
+
 ## Code Structure
 
 - `./scripts/ma_hddrqn.py`
