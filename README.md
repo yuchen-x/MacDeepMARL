@@ -27,11 +27,11 @@ A mini-batch of squeezed experience is then used for optimizing each agent's dec
 Training in three domains (single run):
 - Capture Target
   ```
-  ma_hddrqn.py --grid_dim 10 10 --env_name=CT --env_terminate_step=60 --batch_size=32 --trace_len=4 --rnn_h_size=64 --train_freq=5 --total_epi=20000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=ct_10_10 --replay_buffer_size=50000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.95 --start_train=2
+  ma_hddrqn.py --grid_dim 10 10 --env_name=CT_MA_v1 --env_terminate_step=60 --batch_size=32 --trace_len=4 --rnn_h_size=64 --train_freq=5 --total_epi=20000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=ct_10_10 --replay_buffer_size=50000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.95 --start_train=2
   ```
 - Box Pushing
   ```
-  ma_hddrqn.py --grid_dim 10 10 --env_name=CT_MA_v1 --env_terminate_step=60 --batch_size=32 --trace_len=4 --rnn_h_size=64 --train_freq=5 --total_epi=20000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=ctma_10_10 --replay_buffer_size=50000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.95 --start_train=2
+  ma_hddrqn.py --grid_dim 10 10 --env_name=BP_MA --env_terminate_step=60 --batch_size=32 --trace_len=4 --rnn_h_size=64 --train_freq=5 --total_epi=20000 --seed=0 --run_id=0 --eps_l_d --dynamic_h --rnn --save_dir=ctma_10_10 --replay_buffer_size=50000 --h_stable_at=4000 --eps_l_d_steps=4000 --l_rate=0.001 --discount=0.95 --start_train=2
   ```
 - Warehouse Tool Delivery
   ```
