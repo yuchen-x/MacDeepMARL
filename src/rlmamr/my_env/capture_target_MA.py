@@ -34,14 +34,49 @@ ACTIONS = ["M_T_T", "STAY"]
 
 class CaptureTarget_MA(gym.Env):
 
+    """Base class for capture target domain"""
+
     metadata = {
             'render.modes': ['human', 'rgb_array'],
             'video.frames_per_second' : 50
             }
 
-    def __init__(self, n_target, n_agent, grid_dim, terminate_step=60,
-                 intermediate_r=False, target_flick_prob=0.3, obs_one_hot=False,
-                 tgt_avoid_agent=False, tgt_trans_noise=0.0, agent_trans_noise=0.1):
+    def __init__(self, 
+                 n_target, 
+                 n_agent, 
+                 grid_dim, 
+                 terminate_step=60,
+                 intermediate_r=False, 
+                 target_flick_prob=0.3, 
+                 obs_one_hot=False,
+                 tgt_avoid_agent=False, 
+                 tgt_trans_noise=0.0, 
+                 agent_trans_noise=0.1):
+
+        """
+        Parameters
+        ----------
+        n_target : int
+            number of targets in the world
+        n_agent : int 
+            number of agents in the world
+        grid_dim : tuple(int, int)
+            The size of the grid world.
+        terminate_step : int
+            The maximal steps per episode.
+        intermediate_r : bool
+            Not implement 
+        target_flick_prob : float
+            The probability of not observing the target.
+        obs_one_hot : bool
+            Whether represent obervation as a one-hot vector.
+        tgt_avoid_agent : bool
+            Whether target keeps moving away from agents.
+        tgt_trans_noise : float
+            Target's transition probability for arriving an unintended adjacent cell
+        agent_trans_noise : float
+            Agent's transition probability for arriving an unintended adjacent cell
+        """
 
         # env generic settings
         self.n_target = n_target 
@@ -297,6 +332,26 @@ class CaptureTarget_MA_v1(CaptureTarget_MA):
         self.target_positions = np.stack([Agent_v1.rand_position(*self.grid_dim) for _ in range(self.n_target)])
 
     def step(self, actions, debug=False):
+        """
+        Parameters
+        ----------
+        actions : int | List[..]
+           The discrete macro-action index for one or more agents. 
+
+        Returns
+        -------
+        cur_actions : int | List[..]
+            The discrete macro-action indice which agents are executing in the current step.
+        observations : ndarry | List[..]
+            A list of  each agent's macor-observation.
+        rewards : float
+            A global shared reward.
+        done : bool
+            Whether the current episode is over or not.
+        cur_action_done : binary (1/0) | List[..]
+            Whether each agent's curent macro-action is done or not.
+        """
+
         self.step_n += 1
         assert len(actions) == self.n_agent
         cur_actions = []
