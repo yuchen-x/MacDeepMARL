@@ -8,20 +8,40 @@ from gym import spaces
 
 class ObjSearchDelivery(gym.Env):
 
+    """Base class of object search and delivery domain"""
+
     metadata = {
             'render.modes': ['human', 'rgb_array'],
             'video.frames_per_second' : 50
             }
 
-    def __init__(self, n_objs=3, terminate_step=150, tbot_speed=0.6, *args, **kwargs):
+    def __init__(self, 
+                 n_objs=3, 
+                 n_each_obj=1,
+                 terminate_step=150, 
+                 tbot_speed=0.6, *args, **kwargs):
+        """
+        Parameters
+        ----------
+        n_objs : int
+            The number of object's types in the domain.
+        n_each_obj : int
+            The number of objects per object's type
+        terminate_step : int
+            The maximal steps per episode.
+        tbot_speed : float
+            Turtlebot's moving speed m/s
+        """
 
         self.n_agent = 3
 
         #-----------------basic settings for this domain
-        self.n_objs = n_objs                             # define the number of different objects needs for each human to finish the whole task
-                                                         # remeber change the corresponding argument when change this parameter
-        self.n_each_obj = 1                              # total amount of each obj in the env
-        self.n_steps_human_task = self.n_objs + 1        # define the number of steps for each human finishing the task 
+        # define the number of different objects needs for each human to finish the whole task
+        self.n_objs = n_objs
+        # total amount of each obj in the env
+        self.n_each_obj = n_each_obj
+        # define the number of steps for each human finishing the task 
+        self.n_steps_human_task = self.n_objs + 1
 
         #-----------------def belief waypoints
         BWP0 = BeliefWayPoint('WorkArea0', 0, 6.0, 3.0)
@@ -68,8 +88,9 @@ class ObjSearchDelivery(gym.Env):
         #-----------------initialize Three Humans
         Human0 = AgentHuman(0, self.n_steps_human_task, [18,18,18,18], list(range(self.n_objs)))
 
+        # recording the number of human who has finished his own task
         self.humans = [Human0]
-        self.n_human_finished = []   # recording the number of human who has finished his own task
+        self.n_human_finished = []
         
     def step(self, actions, debug=False):
         raise NotImplementedError
@@ -339,7 +360,9 @@ class ObjSearchDelivery(gym.Env):
 class ObjSearchDelivery_v4(ObjSearchDelivery):
 
     """1) Not distinguish Look_for_obj to different robot.
-       2) Turtlebot get tool and wait until fetch pass any obj to it or terminate it in 10s.
+       2) Turtlebot's macro-action "get tool" has two terminate conditions:
+            a) wait besides the table until fetch pass any obj to it;
+            b) terminates in 10s.
        3) Turtlebot observe human working status"""
 
 
@@ -398,6 +421,26 @@ class ObjSearchDelivery_v4(ObjSearchDelivery):
 
     def step(self, actions, debug=False):
 
+        """
+        Parameters
+        ----------
+        actions : int | List[..]
+           The discrete macro-action index for one or more agents. 
+
+        Returns
+        -------
+        cur_actions : int | List[..]
+            The discrete macro-action indice which agents are executing in the current step.
+        observations : ndarry | List[..]
+            A list of  each agent's macor-observation.
+        rewards : float
+            A global shared reward.
+        done : bool
+            Whether the current episode is over or not.
+        cur_action_done : binary (1/0) | List[..]
+            Whether each agent's curent macro-action is done or not.
+        """
+
         rewards = -1.0
         terminate = 0
         cur_actions= []
@@ -425,7 +468,7 @@ class ObjSearchDelivery_v4(ObjSearchDelivery):
             cur_actions.append(actions[2])
         rewards += reward
 
-        # collect the info about the cur_actions and if they are finished
+        # collect the info about the cur_actions' execution status
         for idx, agent in enumerate(self.agents):
             cur_actions_done.append(1 if agent.cur_action_done else 0)
         

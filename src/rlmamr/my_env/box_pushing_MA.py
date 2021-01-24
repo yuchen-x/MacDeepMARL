@@ -193,11 +193,11 @@ class BoxPushing_harder(gym.Env):
 
         if not self.pushing_big_box:
             for idx, agent in enumerate(self.agents):
-                # if agent's current macro-action is not done, continue running the current macro-action
+                # if agent's previous macro-action is not done, continue running the current macro-action
                 if not agent.cur_action_done:
                     reward = agent.step(agent.cur_action.idx, self.boxes)
                     cur_actions.append(agent.cur_action.idx)
-                # if agent's current macro-action is done, run the new input macro-action
+                # if agent's previous macro-action is done, run the new input macro-action
                 else:
                     reward = agent.step(actions[idx], self.boxes)
                     cur_actions.append(actions[idx])
