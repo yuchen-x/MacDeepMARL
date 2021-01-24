@@ -7,7 +7,6 @@ import IPython
 from gym.utils import seeding
 from IPython.core.debugger import set_trace
 
-#DIRECTION = [(0.0,1.0), (1.0,0.0), (0.0,-1.0), (-1.0,0.0)]
 DIRECTION = np.array([[0.0, 1.0],
                       [1.0, 0.0],
                       [0.0, -1.0],
@@ -19,6 +18,8 @@ COST = np.array([[0.0, 0.1, 0.2, 0.1],
                  [0.1, 0.2, 0.1, 0.0]])
 
 class Box(object):
+
+    """Properties for a box in the env"""
     
     def __init__(self,
                  idx,
@@ -60,27 +61,34 @@ class MacroAction(object):
                  std=None,
                  ma_bwpterm=None):
 
-        self.name = name  # the name of this macro-action
-        self.idx = idx    # the index of this macro-action
-        self.expected_t_cost = expected_t_cost   # None is for moving action. When it is done depends on the specify speed.
+        # the name of this macro-action
+        self.name = name          
+        # the index of this macro-action
+        self.idx = idx    
+        # None is for moving action. When it is done depends on the specify speed.
+        self.expected_t_cost = expected_t_cost
         self.std = std
         if std is None:
-            self.real_t_cost = expected_t_cost   # the time cost of finishing this macro-action
+            # the time cost of finishing this macro-action
+            self.real_t_cost = expected_t_cost
         else:
             self.real_t_cost = np.random.normal(expected_t_cost, std)
-        self.ma_bwpterm = ma_bwpterm  # used for moving action to indicate at which belief waypoint this macro-action will be terminated,
-                                      # None means the terminate belief waypoint is same as where the action is initialized.
+        # used for moving action to indicate at which belief waypoint this macro-action will be terminate;
+        # None means the terminate belief waypoint is same as where the action is initialized.
+        self.ma_bwpterm = ma_bwpterm  
 
     @property
     def t_cost(self):
         if self.std is None:
-            return self.expected_t_cost   # the time cost of finishing this macro-action
+            # the time cost of finishing this macro-action
+            return self.expected_t_cost
         else:
-            return round(np.random.normal(self.expected_t_cost, self.std),1)   # resample a time cost for the macro-action
+            # resample a time cost for the macro-action
+            return round(np.random.normal(self.expected_t_cost, self.std),1)   
  
 class astar_Agent_(object):
 
-    """for box_pushing_harder"""
+    """A class of an agent with astar path planning alg as low-level controller"""
 
     def __init__(self,
                  idx,
@@ -110,6 +118,10 @@ class astar_Agent_(object):
         self.xlen, self.ylen = grid_dim
 
     def step(self, action, boxes):
+        
+        """Depends on the input macro-action to run low-level controller to achieve 
+           primitive action execution.
+        """
 
         assert action < len(self.macro_actions), "The action received is out of range"
 
@@ -184,6 +196,7 @@ class astar_Agent_(object):
         return reward
 
     def move(self, bwp, boxes):
+        """low-level astar controller for moving"""
 
         agent_p = np.array([self.xcoord, self.ycoord])
         g_p = np.array([bwp.xcoord, bwp.ycoord])

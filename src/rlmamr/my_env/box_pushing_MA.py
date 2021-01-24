@@ -12,7 +12,11 @@ DIRECTION = [(0,1), (1,0), (0,-1), (-1,0)]
 
 class BoxPushing_harder(gym.Env):
 
-    """1) Agent is allowed to push any small box;
+    """
+       Box Pushing Domain Description
+       ------------------------------
+
+       1) Agent is allowed to push any small box;
        2) Agent is allowed to go to any one of the two waypoints to push the big box;
        3) Big box is only able to be pushed when the two agents locating in the two waypoints seperately."""
     
@@ -22,6 +26,17 @@ class BoxPushing_harder(gym.Env):
             }
 
     def __init__(self, grid_dim, terminate_step=100, random_init=False, *args, **kwargs):
+
+        """
+        Parameters
+        ----------
+        gird_dim : tuple(int, int)
+            The size of the grid world.
+        terminate_step : int
+            The maximal steps per episode.
+        random_init : bool
+            Whether to randomly initialize agents' positions.
+        """
 
         self.n_agent = 2
 
@@ -138,6 +153,25 @@ class BoxPushing_harder(gym.Env):
         return self._getobs()
 
     def step(self, actions, debug=False):
+        """
+        Parameters
+        ----------
+        actions : int | List[..]
+           The discrete macro-action index for one or more agents. 
+
+        Returns
+        -------
+        cur_actions : int | List[..]
+            The discrete macro-action indice which agents are executing in the current step.
+        observations : ndarry | List[..]
+            A list of  each agent's macor-observation.
+        rewards : float
+            A global shared reward.
+        done : bool
+            Whether the current episode is over or not.
+        cur_action_done : binary (1/0) | List[..]
+            Whether each agent's curent macro-action is done or not.
+        """
 
         rewards = -0.1
         terminate = 0
@@ -147,18 +181,23 @@ class BoxPushing_harder(gym.Env):
 
         self.count_step += 1
 
+        # check if agents reach the pre-condition of pushing a big box 
         if (actions[0] == 4) and (actions[1] == 4) and \
                 self.agents[0].cur_action_done and self.agents[1].cur_action_done and \
                 self.agents[0].ori == 0 and self.agents[1].ori == 0 and \
-                ((self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 2 and self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 3) or \
-                (self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 3 and self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 2)):
+                ((self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 2 and \
+                self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 3) or \
+                (self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 3 and \ 
+                    self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 2)):
                     self.pushing_big_box = True
 
         if not self.pushing_big_box:
             for idx, agent in enumerate(self.agents):
+                # if agent's current macro-action is not done, continue running the current macro-action
                 if not agent.cur_action_done:
                     reward = agent.step(agent.cur_action.idx, self.boxes)
                     cur_actions.append(agent.cur_action.idx)
+                # if agent's current macro-action is done, run the new input macro-action
                 else:
                     reward = agent.step(actions[idx], self.boxes)
                     cur_actions.append(actions[idx])
@@ -179,6 +218,7 @@ class BoxPushing_harder(gym.Env):
             cur_actions.append(4)
             cur_actions.append(4)
 
+        # compute reward
         reward = 0.0
         small_box = 0.0
         for idx, box in enumerate(self.boxes):
