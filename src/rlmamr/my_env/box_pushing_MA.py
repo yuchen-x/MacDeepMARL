@@ -182,13 +182,10 @@ class BoxPushing_harder(gym.Env):
         self.count_step += 1
 
         # check if agents reach the pre-condition of pushing a big box 
-        if (actions[0] == 4) and (actions[1] == 4) and \
-                self.agents[0].cur_action_done and self.agents[1].cur_action_done and \
+        if (actions[0] == 4) and (actions[1] == 4) and self.agents[0].cur_action_done and self.agents[1].cur_action_done and \
                 self.agents[0].ori == 0 and self.agents[1].ori == 0 and \
-                ((self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 2 and \
-                self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 3) or \
-                (self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 3 and \ 
-                    self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 2)):
+                ((self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 2 and self.agents[1].cur_BWP is not None and self.agents[1].cur_BWP.idx == 3) or \
+                (self.agents[0].cur_BWP is not None and self.agents[0].cur_BWP.idx == 3 and (self.agents[1].cur_BWP is not None) and self.agents[1].cur_BWP.idx == 2)):
                     self.pushing_big_box = True
 
         if not self.pushing_big_box:
