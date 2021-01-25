@@ -107,6 +107,7 @@ def train(env_name, grid_dim, obs_one_hot, target_flick_prob, agent_trans_noise,
     while team.episode_count <= total_epi:
         team.step(run_id)
         if (not step % train_freq) and team.episode_count >= start_train:
+            # update hysteretic learning rate
             if db_step:
                 team.update_hysteretic(step)
             else:
@@ -115,6 +116,7 @@ def train(env_name, grid_dim, obs_one_hot, target_flick_prob, agent_trans_noise,
             for _ in range(n_env):
                 team.train()
 
+            # update epsilon
             if db_step:
                 team.update_epsilon(step)
             else:
@@ -173,7 +175,7 @@ def main():
     parser.add_argument('--target_update_freq', action='store',        type=int,           default=5000,          help='Updating target net every a number of steps')
     parser.add_argument('--trace_len',          action='store',        type=int,           default=10,            help='The length of each sequence saved in replay buffer when not using full-episode-based replay buffer') 
     parser.add_argument('--sub_trace_len',      action='store',        type=int,           default=1,             help='Minimal length of a sequence for traning data filtering')
-    parser.add_argument('--sort_traj',          action='store_true',                                              help='Whether sort sequences based length or not, redundant param for pytorch version later than 1.1.0')
+    parser.add_argument('--sort_traj',          action='store_true',                                              help='Whether sort sequences based on its valid length after squeezing experiences or not, redundant param for pytorch version later than 1.1.0')
     parser.add_argument('--batch_size',         action='store',        type=int,           default=128,           help='Number of episodes/sequences in a batch')
 
     parser.add_argument('--cen_train',          action='store_true',                                              help='Redundant param')
