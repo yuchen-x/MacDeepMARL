@@ -24,11 +24,12 @@ def QLearn_squ_cen_condi_0(env,
                            rnn=True, 
                            device='cpu', 
                            **kwargs):
+
     """
     Parameters
     ----------
     env : gym.env
-            A macro-action-based gym envrionment.
+        A macro-action-based gym envrionment.
     cen_controller : Cen_Controller
          An instance of Cen_Controller class.
     batch : List[List[..]] 

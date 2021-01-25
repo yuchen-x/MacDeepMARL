@@ -29,10 +29,10 @@ OPTIMIZERS = {'Adam': Adam,
 class Team:
 
     """Base class of a team of agents"""
-    
+
     def __init__(self, 
-                 env, 
-                 memory, 
+                 env,
+                 memory,
                  n_agent, 
                  h_stable_at, 
                  dynamic_h=False, 
@@ -40,6 +40,7 @@ class Team:
                  discount=0.99,
                  epsilon_linear_decay=False, 
                  epsilon_linear_decay_steps=0):
+
         """
         Parameters
         ----------

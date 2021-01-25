@@ -284,7 +284,7 @@ class Team_RNN(Team):
         joint_obs : ndarry | List[..]
             A list of each agent's observation.
         h_state : ndarry | tuple[..]
-            A list of hidden state of centralized rnn-net
+            A tuple of hidden state of centralized rnn-net
         last_action : int | List[..]
             A list of indice of agents' previous macro-action.
         last_valid : int | List[..]
