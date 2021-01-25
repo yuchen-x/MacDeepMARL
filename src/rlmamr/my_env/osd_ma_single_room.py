@@ -363,8 +363,7 @@ class ObjSearchDelivery_v4(ObjSearchDelivery):
        2) Turtlebot's macro-action "get tool" has two terminate conditions:
             a) wait besides the table until fetch pass any obj to it;
             b) terminates in 10s.
-       3) Turtlebot observe human working status"""
-
+       3) Turtlebot observes human working status when locates at workshop room"""
 
     metadata = {
             'render.modes': ['human', 'rgb_array'],

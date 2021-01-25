@@ -19,7 +19,7 @@ class BoxPushing_harder(gym.Env):
        1) Agent is allowed to push any small box;
        2) Agent is allowed to go to any one of the two waypoints to push the big box;
        3) Big box is only able to be pushed when the two agents locating in the two waypoints seperately."""
-    
+
     metadata = {
             'render.modes': ['human', 'rgb_array'],
             'video.frames_per_second' : 50

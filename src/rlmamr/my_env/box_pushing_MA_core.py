@@ -62,9 +62,9 @@ class MacroAction(object):
                  ma_bwpterm=None):
 
         # the name of this macro-action
-        self.name = name          
+        self.name = name
         # the index of this macro-action
-        self.idx = idx    
+        self.idx = idx
         # None is for moving action. When it is done depends on the specify speed.
         self.expected_t_cost = expected_t_cost
         self.std = std
@@ -75,7 +75,7 @@ class MacroAction(object):
             self.real_t_cost = np.random.normal(expected_t_cost, std)
         # used for moving action to indicate at which belief waypoint this macro-action will be terminate;
         # None means the terminate belief waypoint is same as where the action is initialized.
-        self.ma_bwpterm = ma_bwpterm  
+        self.ma_bwpterm = ma_bwpterm
 
     @property
     def t_cost(self):
@@ -84,7 +84,7 @@ class MacroAction(object):
             return self.expected_t_cost
         else:
             # resample a time cost for the macro-action
-            return round(np.random.normal(self.expected_t_cost, self.std),1)   
+            return round(np.random.normal(self.expected_t_cost, self.std),1)
  
 class astar_Agent_(object):
 
