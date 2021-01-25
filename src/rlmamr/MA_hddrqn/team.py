@@ -345,7 +345,7 @@ class Team_RNN(Team):
 
         Return
         ------
-        exps : List[List[tuple(..)]]
+        exps : List[List[List(..)]]
             A separeted batch of episdoes/sequences for each agent, whose size equals to the number of agents. 
         """
         # seperate the joint experience for individual agents

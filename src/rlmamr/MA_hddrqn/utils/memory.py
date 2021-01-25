@@ -61,12 +61,14 @@ class ReplayMemory_rand(ReplayMemory):
             The number of agents.
         obs_size : int | List[..]
             A list of agent's obsvation size.
+        trace_len : int 
+            The length of sequential experiments for sampling.
         batch_size : int
             The number of episodes/sequences for batch sampling.
         size : int
             The number of episodes/sequences in replay buffer.
         """
- 
+
         super(ReplayMemory_rand, self).__init__(n_agent, obs_size, batch_size, size)
         self.trace_len = trace_len
         self.ZERO_PADDING = [(self.ZERO_JOINT_OBS, 

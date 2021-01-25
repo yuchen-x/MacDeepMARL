@@ -5,7 +5,21 @@ import random
 
 class Linear_Decay(object):
 
-    def __init__ (self, total_steps, init_value, end_value):
+    def __init__ (self, 
+                  total_steps, 
+                  init_value, 
+                  end_value):
+        """
+        Parameters
+        ----------
+        total_steps : int
+            Total decay steps.
+        init_value : float
+            Initial value.
+        end_value : float
+            Ending value
+        """
+
         self.total_steps = total_steps
         self.init_value = init_value
         self.end_value = end_value
@@ -23,6 +37,7 @@ def get_joint_a(a_idxes, n_actions):
     return np.sum([a_idx if i == 0 else a_idx * np.prod(n_actions[:i]) for i, a_idx in enumerate(a_idxes)])
 
 def _prune_o(obs, id_valid):
+
     """Given an joint experience (o,a,o',r), the element in o of Q(o,a) which is learnt 
     should be zero if the previous action is not done yet."""
 
@@ -36,6 +51,7 @@ def _prune_o(obs, id_valid):
     return tuple(obs)
 
 def _prune_o_n(obs, id_valid):
+
     """Given an experience (o,a,o',r), the element in o' of argmax_a' Q(o',a') 
     should be zero if the current action a is not done yet."""
 
@@ -47,6 +63,7 @@ def _prune_o_n(obs, id_valid):
     return tuple(obs)
 
 def _prune_filtered_o(obs, id_valid):
+
     """Given an joint experience (o,a,o',r), the element in o of Q(o,a) which is learnt 
     should be zero if the previous action is not done yet."""
 
@@ -58,6 +75,7 @@ def _prune_filtered_o(obs, id_valid):
     return tuple(obs)
  
 def _prune_filtered_o_n(obs, id_valid):
+
     """Given an experience (o,a,o',r), the element in o' of argmax_a' Q(o',a') 
     should be zero if the current action a is not done yet."""
 

@@ -64,4 +64,3 @@ class DDRQN(nn.Module):
         x = x[mask]
 
         return x, h
-

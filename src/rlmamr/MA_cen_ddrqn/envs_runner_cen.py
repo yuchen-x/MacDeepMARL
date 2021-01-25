@@ -59,12 +59,33 @@ def worker(child, env):
         raise
 
 class EnvsRunner(object):
+
     """
-    Environment runner which runs mulitpl environemnts in parallel in subprocesses
+    Environment runner which runs multiple environemnts in parallel in subprocesses
     and communicates with them via pipe
     """
 
-    def __init__(self, env, memory, n_env, h_explore, get_actions):
+    def __init__(self, 
+                 env, 
+                 memory, 
+                 n_env, 
+                 h_explore, 
+                 get_actions):
+
+        """
+        Parameters
+        ----------
+        env : gym.env
+            A macro-action-based gym envrionment.
+        memory : ReplayBuffer
+            An instance of RepalyBuffer class.
+        n_env : int
+            The number of envs running in parallel.
+        h_explore : bool
+            Whether use history-based policy for rollout.
+        get_actions : python function
+            A function for getting macro-actions 
+        """
         
         # func for getting next action via current policy nn
         self.get_actions = get_actions

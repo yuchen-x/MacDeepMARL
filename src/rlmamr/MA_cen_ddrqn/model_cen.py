@@ -12,6 +12,21 @@ def get_mask_from_input(x):
     return ~torch.isnan(x).any(-1)
 
 def Linear(input_dim, output_dim, act_fn='leaky_relu', init_weight_uniform=True):
+
+    """
+    Creat a linear layer.
+
+    Parameters
+    ----------
+    input_dim : int
+        The input dimension.
+    output_dim : int
+        The output dimension.
+    act_fn : str
+        The activation function.
+    init_weight_uniform : bool
+        Whether uniformly sample initial weights.
+    """
     gain = torch.nn.init.calculate_gain(act_fn)
     fc = torch.nn.Linear(input_dim, output_dim)
     if init_weight_uniform:

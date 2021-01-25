@@ -127,7 +127,7 @@ def train(env_name, grid_dim, obs_one_hot, target_flick_prob, agent_trans_noise,
         if not step % target_update_freq: 
             team.update_target_net() 
             # save check point
-            if (time.time()-t) / 3600 >= 48:
+            if (time.time()-t) / 3600 >= 23:
                 save_check_point(team.agents, step, team.episode_count, team.hysteretic, team.epsilon, save_dir, team.memory, run_id, team.TEST_PERFORM) 
                 exit()
             target_updating_count += 1 
