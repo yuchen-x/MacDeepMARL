@@ -30,7 +30,7 @@ ENVIRONMENTS = {
 
 QLearns = [QLearn_squ_cen_condi_0]
 
-def train(env_name, grid_dim, goal, obs_one_hot, target_flick_prob, agent_trans_noise, env_terminate_step, 
+def train(env_name, grid_dim, obs_one_hot, target_flick_prob, agent_trans_noise, env_terminate_step, 
           n_env, n_agent, cen_mode, total_epi, replay_buffer_size, sample_epi, dynamic_h, init_h, end_h, 
           h_stable_at, eps_l_d, eps_l_d_steps, eps_e_d, h_explore, db_step, optim, l_rate, discount, 
           huber_l, g_clip, g_clip_v, g_clip_norm, g_clip_max_norm, start_train, train_freq, target_update_freq, 
@@ -110,6 +110,7 @@ def train(env_name, grid_dim, goal, obs_one_hot, target_flick_prob, agent_trans_
     while team.episode_count <= total_epi:
         team.step(run_id)
         if (not step % train_freq) and team.episode_count >= start_train:
+            # update hysteretic learning rate
             if db_step:
                 team.update_hysteretic(step)
             else:
@@ -118,6 +119,7 @@ def train(env_name, grid_dim, goal, obs_one_hot, target_flick_prob, agent_trans_
             for _ in range(n_env):
                 team.train()
 
+            # update epsilon
             if db_step:
                 team.update_epsilon(step)
             else:
@@ -128,7 +130,7 @@ def train(env_name, grid_dim, goal, obs_one_hot, target_flick_prob, agent_trans_
         if not step % target_update_freq: 
             team.update_target_net() 
             # save check point
-            if (time.time()-t) / 3600 >= 48.0:
+            if (time.time()-t) / 3600 >= 23.0:
                 save_check_point(team.cen_controller, step, team.episode_count, team.hysteretic, team.epsilon, save_dir, team.memory, run_id, team.TEST_PERFORM) 
                 time.sleep(100)
                 sys.exit()
@@ -140,66 +142,60 @@ def train(env_name, grid_dim, goal, obs_one_hot, target_flick_prob, agent_trans_
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env_name', action='store', type=str, default='BP_MA')
-    parser.add_argument('--env_terminate_step', action='store', type=int, default=100)
-    parser.add_argument('--grid_dim', action='store', type=int, nargs=2, default=[6,6])
-    parser.add_argument('--obs_one_hot', action='store_true')
-    parser.add_argument('--target_flick_prob', action='store', type=float, default=0.3)
-    parser.add_argument('--agent_trans_noise', action='store', type=float, default=0.1)
-    parser.add_argument('--n_env', action='store', type=int, default=1)
-    parser.add_argument('--n_agent', action='store', type=int, default=2)
-    parser.add_argument('--cen_mode', action='store', type=int, default=0)
-    parser.add_argument('--goal', action='store', type=int, nargs='+', default=[0,1])
+    parser.add_argument('--env_name',           action='store',        type=str,           default='BP_MA',       help='Domain name')
+    parser.add_argument('--env_terminate_step', action='store',        type=int,           default=100,           help='Maximal steps for termination')
+    parser.add_argument('--grid_dim',           action='store',        type=int,  nargs=2, default=[6,6],         help='Grid world size')
+    parser.add_argument('--obs_one_hot',        action='store_true',                                              help='Whether represents observation as a one-hot vector')
+    parser.add_argument('--target_flick_prob',  action='store',        type=float,         default=0.3,           help='Probability of not observing target in Capture Target domain')
+    parser.add_argument('--agent_trans_noise',  action='store',        type=float,         default=0.1,           help='Agent dynamics noise in Capture Target domain')
+    parser.add_argument('--n_env',              action='store',        type=int,           default=1,             help='Number of envs running in parallel')
+    parser.add_argument('--n_agent',            action='store',        type=int,           default=2,             help='Number of agents')
+    parser.add_argument('--cen_mode',           action='store',        type=int,           default=0,             help='The index of centralized training algorithm')
 
-    parser.add_argument('--total_epi', action='store', type=int, default=15*1000)
-    parser.add_argument('--replay_buffer_size', action='store', type=int, default=50*1000)
-    parser.add_argument('--sample_epi', action='store_true')
-    parser.add_argument('--dynamic_h', action='store_true')
-    parser.add_argument('--init_h', action='store', type=float, default=1.0)
-    parser.add_argument('--end_h', action='store', type=float, default=1.0)
-    parser.add_argument('--h_stable_at', action='store', type=int, default=4*1000)
+    parser.add_argument('--total_epi',          action='store',        type=int,           default=15*1000,       help='Number of training episodes')
+    parser.add_argument('--sample_epi',         action='store_true',                                              help='Whether use full-episode-based replay buffer or not')
+    parser.add_argument('--replay_buffer_size', action='store',        type=int,           default=50*1000,       help='Number of episodes/sequence in replay buffer')
+    parser.add_argument('--dynamic_h',          action='store_true',                                              help='Whether apply hysteritic learning rate decay or not')
+    parser.add_argument('--init_h',             action='store',        type=float,         default=1.0,           help='Initial value of hysteretic learning rate')
+    parser.add_argument('--end_h',              action='store',        type=float,         default=1.0,           help='Ending value of hysteretic learning rate')
+    parser.add_argument('--h_stable_at',        action='store',        type=int,           default=4*1000,        help='Decaying period according to episodes/steps')
 
-    parser.add_argument('--eps_l_d', action='store_true')
-    parser.add_argument('--eps_l_d_steps', action='store', type=int, default=4*1000)
-    parser.add_argument('--eps_e_d', action='store_true')
-    parser.add_argument('--h_explore', action='store_true')
-    parser.add_argument('--db_step', action='store_true')
+    parser.add_argument('--eps_l_d',            action='store_true',                                              help='Whether use epsilon linear decay for exploartion or not')
+    parser.add_argument('--eps_l_d_steps',      action='store',        type=int,           default=4*1000,        help='Decaying period according to episodes/steps')
+    parser.add_argument('--eps_e_d',            action='store_true',                                              help='Whether use episode-based epsilon linear decay or not')
+    parser.add_argument('--h_explore',          action='store_true',                                              help='whether use history-based policy for exploration or not')
+    parser.add_argument('--db_step',            action='store_true',                                              help='Whether use step-based decaying manner or not')
 
-    parser.add_argument('--optim', action='store', type=str, default='Adam')
-    parser.add_argument('--l_rate', action='store', type=float, default=0.001)
-    parser.add_argument('--discount', action='store', type=float, default=0.95)
-    parser.add_argument('--huber_l', action='store_true')
-    parser.add_argument('--g_clip', action='store_true')
-    parser.add_argument('--g_clip_v', action='store', type=float, default=0.0)
-    parser.add_argument('--g_clip_norm', action='store_true')
-    parser.add_argument('--g_clip_max_norm', action='store', type=float, default=0.0)
+    parser.add_argument('--optim',              action='store',        type=str,           default='Adam',        help='Optimizer')
+    parser.add_argument('--l_rate',             action='store',        type=float,         default=0.001,         help='Learning rate')
+    parser.add_argument('--discount',           action='store',        type=float,         default=0.95,          help='Discount factor')
+    parser.add_argument('--huber_l',            action='store_true',                                              help='Whether use huber loss or not')
+    parser.add_argument('--g_clip',             action='store_true',                                              help='Whether use gradient clip or not')
+    parser.add_argument('--g_clip_v',           action='store',        type=float,         default=0.0,           help='Absolute Value limitation for gradient clip')
+    parser.add_argument('--g_clip_norm',        action='store_true',                                              help='Whether use norm-based gradient clip')
+    parser.add_argument('--g_clip_max_norm',    action='store',        type=float,         default=0.0,           help='Norm limitation for gradient clip')
 
-    parser.add_argument('--start_train', action='store', type=int, default=2)
-    parser.add_argument('--train_freq', action='store', type=int, default=10)
-    parser.add_argument('--target_update_freq', action='store', type=int, default=5000)
-    parser.add_argument('--trace_len', action='store', type=int, default=10) 
-    parser.add_argument('--sub_trace_len', action='store', type=int, default=1)
-    parser.add_argument('--sort_traj', action='store_true')
-    parser.add_argument('--batch_size', action='store', type=int, default=128)
+    parser.add_argument('--start_train',        action='store',        type=int,           default=2,             help='Training starts after a number of episodes')
+    parser.add_argument('--train_freq',         action='store',        type=int,           default=10,            help='Updating performs every a number of steps')
+    parser.add_argument('--target_update_freq', action='store',        type=int,           default=5000,          help='Updating target net every a number of steps')
+    parser.add_argument('--trace_len',          action='store',        type=int,           default=10,            help='The length of each sequence saved in replay buffer when not using full-episode-based replay buffer') 
+    parser.add_argument('--sub_trace_len',      action='store',        type=int,           default=1,             help='Minimal length of a sequence for traning data filtering')
+    parser.add_argument('--sort_traj',          action='store_true',                                              help='Whether sort sequences based on its valid length after squeezing experiences or not, redundant param for pytorch version later than 1.1.0')
+    parser.add_argument('--batch_size',         action='store',        type=int,           default=128,           help='Number of episodes/sequences in a batch')
 
-    parser.add_argument('--rnn', action='store_true')
-    parser.add_argument('--rnn_input_dim', action='store', type=int, default=128)
+    parser.add_argument('--rnn',                action='store_true',                                              help='Whether using rnn-based agent')
+    parser.add_argument('--rnn_input_dim',      action='store',        type=int,           default=128,           help='Input dimension of RNN layer')
+    parser.add_argument('--rnn_layer_num',      action='store',        type=int,           default=1,             help='Number of RNN layers')
+    parser.add_argument('--rnn_h_size',         action='store',        type=int,           default=32,            help='Number of neurons in RNN layer')
 
-    parser.add_argument('--rnn_layer_num', action='store', type=int, default=1)
-    parser.add_argument('--rnn_h_size', action='store', type=int, default=32)
-
-    parser.add_argument('--n_run', action='store', type=int, default=1)
-    parser.add_argument('--resume', action='store_true')
-    parser.add_argument('--run_id', action='store', type=int, default=0)
-    parser.add_argument('--seed', action='store', type=int, default=0)
-    parser.add_argument('--save_dir', action='store', type=str, default=None)
-    parser.add_argument('--device', action='store', type=str, default='cpu')
+    parser.add_argument('--resume',             action='store_true',                                              help='Whether use saved ckpt to continue training')
+    parser.add_argument('--run_id',             action='store',        type=int,           default=0,             help='Index of a run')
+    parser.add_argument('--seed',               action='store',        type=int,           default=None,          help='Random seed of a run')
+    parser.add_argument('--save_dir',           action='store',        type=str,           default=None,          help='Directory name for storing trainning results')
+    parser.add_argument('--device',             action='store',        type=str,           default='cpu',         help='Which device (CPU/GPU) to use.')
 
     params = vars(parser.parse_args())
 
-    # for i in range(params['n_run']):
-    #     params['run_id'] = i
-    #     params['seed'] = i*10+1
     train(**params)
 
 if __name__ == '__main__':

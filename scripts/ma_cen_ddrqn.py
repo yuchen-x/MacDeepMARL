@@ -147,7 +147,7 @@ def main():
     parser.add_argument('--env_name',           action='store',        type=str,           default='BP_MA',       help='Domain name')
     parser.add_argument('--env_terminate_step', action='store',        type=int,           default=100,           help='Maximal steps for termination')
     parser.add_argument('--grid_dim',           action='store',        type=int,  nargs=2, default=[6,6],         help='Grid world size')
-    parser.add_argument('--obs_one_hot', action='store_true')
+    parser.add_argument('--obs_one_hot',        action='store_true',                                              help='Whether represents observation as a one-hot vector')
     parser.add_argument('--target_flick_prob',  action='store',        type=float,         default=0.3,           help='Probability of not observing target in Capture Target domain')
     parser.add_argument('--agent_trans_noise',  action='store',        type=float,         default=0.1,           help='Agent dynamics noise in Capture Target domain')
     parser.add_argument('--n_env',              action='store',        type=int,           default=1,             help='Number of envs running in parallel')

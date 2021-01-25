@@ -12,6 +12,21 @@ def get_mask_from_input(x):
     return ~torch.isnan(x).any(-1)
 
 def Linear(input_dim, output_dim, act_fn='leaky_relu', init_weight_uniform=True):
+
+    """
+    Creat a linear layer.
+
+    Parameters
+    ----------
+    input_dim : int
+        The input dimension.
+    output_dim : int
+        The output dimension.
+    act_fn : str
+        The activation function.
+    init_weight_uniform : bool
+        Whether uniformly sample initial weights.
+    """
     gain = torch.nn.init.calculate_gain(act_fn)
     fc = torch.nn.Linear(input_dim, output_dim)
     if init_weight_uniform:
@@ -26,11 +41,11 @@ class DDRQN(nn.Module):
     def __init__(self, input_dim, output_dim, rnn_layer_num=1, rnn_h_size=256, **kwargs):
         super(DDRQN, self).__init__()
 
-        self.fc1 = Linear(input_dim, 64)
-        self.fc2 = Linear(64, rnn_h_size)
+        self.fc1 = Linear(input_dim, 32)
+        self.fc2 = Linear(32, rnn_h_size)
         self.lstm = nn.LSTM(rnn_h_size, hidden_size=rnn_h_size, num_layers=rnn_layer_num, batch_first=True)
-        self.fc3 = Linear(rnn_h_size, 64)
-        self.fc4 = Linear(64, output_dim, act_fn='linear')
+        self.fc3 = Linear(rnn_h_size, 32)
+        self.fc4 = Linear(32, output_dim, act_fn='linear')
        
     def forward(self, x, h=None):
         xx = pad_sequence(x, padding_value=torch.tensor(float('nan')), batch_first=True)

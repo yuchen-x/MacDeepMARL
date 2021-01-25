@@ -7,9 +7,57 @@ from torch.nn.utils import clip_grad_norm_
 from IPython.core.debugger import set_trace
 from .utils.utils import _prune_o, _prune_o_n, get_conditional_argmax, get_conditional_action, _prune_filtered_o, _prune_filtered_o_n
 
-def QLearn_squ_cen_condi_0(env, cen_controller, batch, hysteretic, discount, trace_len, sub_trace_len, batch_size, 
-                           sort_traj=False, huber_loss=False, grad_clip=False, grad_clip_value=None,
-                           grad_clip_norm=False, grad_clip_max_norm=None, rnn=True, device='cpu', **kwargs):
+def QLearn_squ_cen_condi_0(env, 
+                           cen_controller, 
+                           batch, 
+                           hysteretic, 
+                           discount, 
+                           trace_len, 
+                           sub_trace_len, 
+                           batch_size, 
+                           sort_traj=False, 
+                           huber_loss=False, 
+                           grad_clip=False, 
+                           grad_clip_value=None,
+                           grad_clip_norm=False, 
+                           grad_clip_max_norm=None, 
+                           rnn=True, 
+                           device='cpu', 
+                           **kwargs):
+    """
+    Parameters
+    ----------
+    env : gym.env
+            A macro-action-based gym envrionment.
+    cen_controller : Cen_Controller
+         An instance of Cen_Controller class.
+    batch : List[List[..]] 
+        A list of episodic joint experiences.
+    discount : float
+        Discount factor for learning.
+    trace_len : int
+        The length of the longest episode.
+    sub_trace_len : int
+        The length of the shortes episode for filtering.
+    batch_size : int
+        The number of episodes/sequences in a batch.
+    sort_traj : bool
+        Whether sort the sampled episodes/sequences according to each episode's valid length after squeezing operation. 
+    huber_loss : bool
+        Whether apply huber loss or not.
+    grad_clip : bool
+        Whether use gradient clip or not.
+    grad_clip_value : float
+        Absolute value limitation for gradient clip.
+    grad_clip_norm : bool
+        Whether use norm-based gradient clip
+    grad_clip_max_norm : float
+        Norm limitation for gradient clip.
+    rnn : bool
+        whether use rnn-agent or not.
+    device : str
+        Which device (CPU/GPU) to use.
+    """
 
     # calculate loss for controller
     policy_net = cen_controller.policy_net

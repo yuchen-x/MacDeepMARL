@@ -284,7 +284,7 @@ class Team_RNN(Team):
         h_state : ndarry | tuple[..]
             A list of hidden state of centralized rnn-net
         last_valid : int | List[..]
-            A list of integer indicates whether each agent has finished the previous macro-action.
+            A list of binary values indicates whether each agent has finished the previous macro-action.
         eval : bool
             Whether use evaluation mode or not.
 
