@@ -73,11 +73,11 @@ Training in Box Pushing domain via *unconditional target prediction* (single run
 - Encode the new macro/primitve-action domain as a gym env;
 - Add "obs_size", "n_action" and "action_spaces" as properties into the env class;
 - Let the step function return <a, o', r, t, v> instead of <o', r, t>, where
-  - a is the current macro/primitve actions indice of agents, List[int]; 
-  - o' is the new macro/premitive observations, List[ndarry]; 
-  - r is the reward, float; 
-  - t is whether terminates or not, bool;
-  - v is a binary value indicate whether each agent's macro/primitive action terminates or not, List[int]. In primitive-action version, v should be always 1.
+  - a is the current macro/primitve actions indice of agents, **List[int]**; 
+  - o' is the new macro/premitive observations, **List[ndarry]**; 
+  - r is the reward, **float**; 
+  - t is whether terminates or not, **bool**;
+  - v is a binary value indicate whether each agent's macro/primitive action terminates or not, **List[int]**. In primitive-action version, v should be always 1.
 
 ## Visualization of a Trained Centralized Policy in the Warehouse Domain
 
