@@ -8,6 +8,7 @@ This is the code for implementing the macro-action-based decentralized learning 
   ```
   cd Anaconda_Env/
   conda env create -f 367_corl2019_env.yml
+  conda activate corl2019
   ```
 - To install the python module:
   ```
